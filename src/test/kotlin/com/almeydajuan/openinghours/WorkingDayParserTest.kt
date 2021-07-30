@@ -32,7 +32,7 @@ class WorkingDayParserTest {
                 day = Day.MONDAY.input,
                 actions = listOf(
                     DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
                 )
             )
         )
@@ -45,7 +45,7 @@ class WorkingDayParserTest {
                 day = "someday",
                 actions = listOf(
                     DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
                 )
             )
         }.message
@@ -75,7 +75,7 @@ class WorkingDayParserTest {
                 day = Day.MONDAY.input,
                 actions = listOf(
                     DayAction(Action.OPEN.input, ELEVEN_AM_UNIX),
-                    DayAction(Action.OPEN.input, NINE_AM_UNIX)
+                    DayAction(Action.CLOSE.input, NINE_AM_UNIX)
                 )
             )
         }.message
@@ -90,9 +90,9 @@ class WorkingDayParserTest {
                 day = Day.MONDAY.input,
                 actions = listOf(
                     DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX),
+                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX),
                     DayAction(Action.OPEN.input, ONE_PM_UNIX),
-                    DayAction(Action.OPEN.input, SIX_PM_UNIX)
+                    DayAction(Action.CLOSE.input, SIX_PM_UNIX)
                 )
             )
         )

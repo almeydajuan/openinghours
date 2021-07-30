@@ -14,11 +14,21 @@ data class WorkingDayParser(
 
         val text = StringBuilder(dayParser.parseDay(day))
         text.append(" ")
-        text.append(timeConverter.convert(actions[0].timestamp))
-        text.append(" ")
-        text.append(actionParser.parseAction(actions[1].action))
-        text.append(" ")
-        text.append(timeConverter.convert(actions[1].timestamp))
+
+        actions.zipWithNext().forEach {
+            val first = it.first
+            val second = it.second
+            if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
+                text.append(timeConverter.convert(first.timestamp))
+                text.append(" ")
+                text.append(actionParser.parseAction(second.action))
+                text.append(" ")
+                text.append(timeConverter.convert(second.timestamp))
+            }
+            if (first.action == Action.CLOSE.input) {
+                text.append(", ")
+            }
+        }
 
         return text.toString()
     }
