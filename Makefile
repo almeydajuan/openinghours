@@ -3,3 +3,7 @@
 install:
     sh config/jabba.sh
 	sh config/gradle.sh
+
+.PHONY: test
+test:
+    ./gradlew test
