@@ -82,10 +82,7 @@ class WorkingDayParserTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = nineToEleven + listOf(
-                            DayAction(Action.OPEN.input, ONE_PM_UNIX),
-                            DayAction(Action.CLOSE.input, SIX_PM_UNIX)
-                        )
+                        actions = nineToEleven + oneToSix
                     )
                 )
             )
@@ -108,6 +105,28 @@ class WorkingDayParserTest {
                     WorkingDay(
                         day = Day.TUESDAY.input,
                         actions = nineToEleven
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `assert more complex days`() {
+        assertEquals(
+            """
+                Monday 9 AM - 11 AM, 1 PM - 6 PM
+                Wednesday 9 AM - 11 AM, 1 PM - 6 PM
+            """.trimIndent(),
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = nineToEleven + oneToSix
+                    ),
+                    WorkingDay(
+                        day = Day.WEDNESDAY.input,
+                        actions = nineToEleven + oneToSix
                     )
                 )
             )
