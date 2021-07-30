@@ -33,6 +33,10 @@ class UnixTimestampConverter {
             throw RuntimeException(OUT_OF_RANGE_DATE)
         }
     }
+
+    companion object {
+
+    }
 }
 
 const val OUT_OF_RANGE_DATE = "date is out of range"

@@ -10,7 +10,7 @@ class UnixTimestampConverterTest {
 
     @Test
     fun `convert 9 AM unix time to human readable format`() {
-        assertEquals("9 AM", converter.convert(32400))
+        assertEquals("9 AM", converter.convert(NINE_AM_UNIX))
     }
 
     @Test
