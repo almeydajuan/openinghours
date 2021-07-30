@@ -9,6 +9,9 @@ data class WorkingDayParser(
     fun convertWorkingDays(workingDays: List<WorkingDay>): String {
         val text = StringBuilder("")
         workingDays.forEach {
+            if (text.isNotBlank()) {
+                text.append("\n")
+            }
             text.append(convertWorkingDay(it))
         }
         return text.toString()
