@@ -1,6 +1,7 @@
 package com.almeydajuan.openinghours
 
 import java.lang.RuntimeException
+import java.lang.StringBuilder
 
 data class WorkingDayParser(
     val timeConverter: UnixTimestampConverter,
@@ -11,12 +12,15 @@ data class WorkingDayParser(
     fun convert(day: String, actions: List<DayAction>): String {
         validateInput(day, actions)
 
-        val dayText = dayParser.parseDay(day)
-        val openTime = timeConverter.convert(actions[0].timestamp)
-        val closeText = actionParser.parseAction(actions[1].action)
-        val closeTime = timeConverter.convert(actions[1].timestamp)
+        val text = StringBuilder(dayParser.parseDay(day))
+        text.append(" ")
+        text.append(timeConverter.convert(actions[0].timestamp))
+        text.append(" ")
+        text.append(actionParser.parseAction(actions[1].action))
+        text.append(" ")
+        text.append(timeConverter.convert(actions[1].timestamp))
 
-        return "$dayText $openTime $closeText $closeTime"
+        return text.toString()
     }
 
     private fun validateInput(day: String, actions: List<DayAction>) {

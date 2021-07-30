@@ -3,7 +3,6 @@ package com.almeydajuan.openinghours
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.RuntimeException
 
 class WorkingDayParserTest {
 
@@ -62,7 +61,12 @@ class WorkingDayParserTest {
         assertEquals("Monday 9 AM - 11 AM, 1 PM - 6 PM",
             workingDayParser.convert(
                 day = "monday",
-                actions = listOf(DayAction("open", NINE_AM_UNIX), DayAction("close", ELEVEN_AM_UNIX))
+                actions = listOf(
+                    DayAction("open", NINE_AM_UNIX),
+                    DayAction("close", ELEVEN_AM_UNIX),
+                    DayAction("open", ONE_PM_UNIX),
+                    DayAction("close", SIX_PM_UNIX)
+                )
             )
         )
     }
