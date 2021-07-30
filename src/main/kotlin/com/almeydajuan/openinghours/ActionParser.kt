@@ -5,7 +5,7 @@ class ActionParser {
     fun parseAction(actionName: String) = Action.values().first { it.input == actionName }.output
 }
 
-private enum class Action(val input: String, val output: String) {
+enum class Action(val input: String, val output: String) {
     OPEN("open", ""),
     CLOSE("close", "-")
 }

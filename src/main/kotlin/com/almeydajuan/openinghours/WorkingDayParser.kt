@@ -30,10 +30,17 @@ data class WorkingDayParser(
         if (actions.any { !actionParser.containsAction(it.action) }) {
             throw RuntimeException(ACTION_NOT_SUPPORTED)
         }
+        if (!actions.isSorted()) {
+            throw RuntimeException(TIMES_ARE_INCONSISTENT)
+        }
     }
 }
+
+private fun List<DayAction>.isSorted(): Boolean =
+    this.map { it.timestamp }.sorted() == this.map { it.timestamp }
 
 data class DayAction(val action: String, val timestamp: Long)
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"
+const val TIMES_ARE_INCONSISTENT = "Times are inconsistent"

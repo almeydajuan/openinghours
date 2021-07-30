@@ -5,7 +5,7 @@ class DayParser {
     fun parseDay(dayName: String) = Day.values().first { it.input == dayName }.output
 }
 
-private enum class Day(val input: String, val output: String) {
+enum class Day(val input: String, val output: String) {
     MONDAY("monday", "Monday"),
     TUESDAY("tuesday", "Tuesday"),
     WEDNESDAY("wednesday", "Wednesday"),
