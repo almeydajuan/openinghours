@@ -28,12 +28,28 @@ class TestXX {
         assertEquals(DAY_NOT_SUPPORTED, message)
     }
 
+    @Test
+    fun `fail when action is not accepted`() {
+        val message = assertThrows<RuntimeException> {
+            convert("Monday", "action", NINE_AM_UNIX, "close", ELEVEN_AM_UNIX)
+        }.message
+
+        assertEquals(ACTION_NOT_SUPPORTED, message)
+    }
 
     private fun convert(day: String, action: String, time1: Long, action2: String, time2: Long): String {
+        validateInput(day, action)
+
+        return "${Day.valueOf(day)} from ${timeConverter.convert(time1)} to ${timeConverter.convert(time2)}"
+    }
+
+    private fun validateInput(day: String, action: String) {
         if (!Day.values().map { it.name }.contains(day)) {
             throw RuntimeException(DAY_NOT_SUPPORTED)
         }
-        return "${Day.valueOf(day)} from ${timeConverter.convert(time1)} to ${timeConverter.convert(time2)}"
+        if (!Action.values().map { it.name }.contains(action)) {
+            throw RuntimeException(ACTION_NOT_SUPPORTED)
+        }
     }
 }
 
@@ -47,4 +63,10 @@ enum class Day(name: String) {
     Sunday("sunday")
 }
 
+enum class Action(name: String) {
+    OPEN("open"),
+    CLOSE("close")
+}
+
 const val DAY_NOT_SUPPORTED = "Day is not supported"
+const val ACTION_NOT_SUPPORTED = "Action is not supported"
