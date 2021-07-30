@@ -18,26 +18,31 @@ data class WorkingDayParser(
     }
 
     private fun convertWorkingDay(workingDay: WorkingDay): String {
-        validateInput(workingDay.day, workingDay.actions)
+        val text = StringBuilder()
+        if (workingDay.isEmptyWorkingDay()) {
+            text.append(dayParser.parseDay(workingDay.day))
+            text.append(": Closed")
+        } else {
+            validateInput(workingDay.day, workingDay.actions)
 
-        val text = StringBuilder(dayParser.parseDay(workingDay.day))
-        text.append(" ")
+            text.append(dayParser.parseDay(workingDay.day))
+            text.append(": ")
 
-        workingDay.actions.zipWithNext().forEach {
-            val first = it.first
-            val second = it.second
-            if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
-                text.append(timeConverter.convert(first.timestamp))
-                text.append(" ")
-                text.append(actionParser.parseAction(second.action))
-                text.append(" ")
-                text.append(timeConverter.convert(second.timestamp))
-            }
-            if (first.action == Action.CLOSE.input) {
-                text.append(", ")
+            workingDay.actions.zipWithNext().forEach {
+                val first = it.first
+                val second = it.second
+                if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
+                    text.append(timeConverter.convert(first.timestamp))
+                    text.append(" ")
+                    text.append(actionParser.parseAction(second.action))
+                    text.append(" ")
+                    text.append(timeConverter.convert(second.timestamp))
+                }
+                if (first.action == Action.CLOSE.input) {
+                    text.append(", ")
+                }
             }
         }
-
         return text.toString()
     }
 
@@ -58,7 +63,10 @@ private fun List<DayAction>.isSorted(): Boolean =
     this.map { it.timestamp }.sorted() == this.map { it.timestamp }
 
 data class DayAction(val action: String, val timestamp: Long)
-data class WorkingDay(val day: String, val actions: List<DayAction>)
+
+data class WorkingDay(val day: String, val actions: List<DayAction>) {
+    fun isEmptyWorkingDay() = actions.size < 2
+}
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"

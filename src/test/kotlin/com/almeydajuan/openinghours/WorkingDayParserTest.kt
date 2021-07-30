@@ -14,7 +14,7 @@ class WorkingDayParserTest {
 
     @Test
     fun `Mondays open from 9 am to 11 am`() {
-        assertEquals("Monday 9 AM - 11 AM",
+        assertEquals("Monday: 9 AM - 11 AM",
             workingDayParser.convertWorkingDays(
                 listOf(typicalMonday)
             )
@@ -77,7 +77,7 @@ class WorkingDayParserTest {
 
     @Test
     fun `Mondays open from 9 am to 11 am and from 1 pm to 6 pm`() {
-        assertEquals("Monday 9 AM - 11 AM, 1 PM - 6 PM",
+        assertEquals("Monday: 9 AM - 11 AM, 1 PM - 6 PM",
             workingDayParser.convertWorkingDays(
                 listOf(
                     WorkingDay(
@@ -93,8 +93,8 @@ class WorkingDayParserTest {
     fun `Mondays open from 9 am to 11 am and Tuesdays as well`() {
         assertEquals(
             """
-                Monday 9 AM - 11 AM
-                Tuesday 9 AM - 11 AM
+                Monday: 9 AM - 11 AM
+                Tuesday: 9 AM - 11 AM
             """.trimIndent(),
             workingDayParser.convertWorkingDays(
                 listOf(
@@ -112,11 +112,11 @@ class WorkingDayParserTest {
     }
 
     @Test
-    fun `assert more complex days`() {
+    fun `assert days with several times`() {
         assertEquals(
             """
-                Monday 9 AM - 11 AM, 1 PM - 6 PM
-                Wednesday 9 AM - 11 AM, 1 PM - 6 PM
+                Monday: 9 AM - 11 AM, 1 PM - 6 PM
+                Wednesday: 9 AM - 11 AM, 1 PM - 6 PM
             """.trimIndent(),
             workingDayParser.convertWorkingDays(
                 listOf(
@@ -127,6 +127,42 @@ class WorkingDayParserTest {
                     WorkingDay(
                         day = Day.WEDNESDAY.input,
                         actions = nineToEleven + oneToSix
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Days without opening times are shown as closed`() {
+        assertEquals(
+            "Monday: Closed",
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf()
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `assert take following day`() {
+        assertEquals(
+            """
+                Monday: 9 AM - 11 AM, 1 PM - 1 AM
+            """.trimIndent(),
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = nineToEleven + listOf(DayAction(Action.OPEN.input, ONE_PM_UNIX))
+                    ),
+                    WorkingDay(
+                        day = Day.TUESDAY.input,
+                        actions = listOf(DayAction(Action.OPEN.input, ONE_AM_UNIX))
                     )
                 )
             )
