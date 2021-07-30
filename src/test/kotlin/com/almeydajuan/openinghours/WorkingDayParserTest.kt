@@ -13,35 +13,10 @@ class WorkingDayParserTest {
     )
 
     @Test
-    fun `Mondays open from 9 am to 6 pm`() {
-        assertEquals("Monday 9 AM - 6 PM",
-            workingDayParser.convertWorkingDays(
-                listOf(
-                    WorkingDay(
-                        day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, SIX_PM_UNIX)
-                        )
-                    )
-                )
-            )
-        )
-    }
-
-    @Test
     fun `Mondays open from 9 am to 11 am`() {
         assertEquals("Monday 9 AM - 11 AM",
             workingDayParser.convertWorkingDays(
-                listOf(
-                    WorkingDay(
-                        day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
-                        )
-                    )
-                )
+                listOf(typicalMonday)
             )
         )
     }
@@ -53,10 +28,7 @@ class WorkingDayParserTest {
                 listOf(
                     WorkingDay(
                         day = "someday",
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
-                        )
+                        actions = nineToEleven
                     )
                 )
             )
@@ -110,9 +82,7 @@ class WorkingDayParserTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX),
+                        actions = nineToEleven + listOf(
                             DayAction(Action.OPEN.input, ONE_PM_UNIX),
                             DayAction(Action.CLOSE.input, SIX_PM_UNIX)
                         )
@@ -133,17 +103,11 @@ class WorkingDayParserTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
-                        )
+                        actions = nineToEleven
                     ),
                     WorkingDay(
                         day = Day.TUESDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
-                        )
+                        actions = nineToEleven
                     )
                 )
             )
