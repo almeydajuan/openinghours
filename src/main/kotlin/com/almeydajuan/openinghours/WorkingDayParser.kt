@@ -1,21 +1,26 @@
 package com.almeydajuan.openinghours
 
-import java.lang.RuntimeException
-import java.lang.StringBuilder
-
 data class WorkingDayParser(
     val timeConverter: UnixTimestampConverter,
     val dayParser: DayParser,
     val actionParser: ActionParser
 ) {
 
-    fun convert(day: String, actions: List<DayAction>): String {
-        validateInput(day, actions)
+    fun convertWorkingDays(workingDays: List<WorkingDay>): String {
+        val text = StringBuilder("")
+        workingDays.forEach {
+            text.append(convertWorkingDay(it))
+        }
+        return text.toString()
+    }
 
-        val text = StringBuilder(dayParser.parseDay(day))
+    private fun convertWorkingDay(workingDay: WorkingDay): String {
+        validateInput(workingDay.day, workingDay.actions)
+
+        val text = StringBuilder(dayParser.parseDay(workingDay.day))
         text.append(" ")
 
-        actions.zipWithNext().forEach {
+        workingDay.actions.zipWithNext().forEach {
             val first = it.first
             val second = it.second
             if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
@@ -50,6 +55,7 @@ private fun List<DayAction>.isSorted(): Boolean =
     this.map { it.timestamp }.sorted() == this.map { it.timestamp }
 
 data class DayAction(val action: String, val timestamp: Long)
+data class WorkingDay(val day: String, val actions: List<DayAction>)
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"

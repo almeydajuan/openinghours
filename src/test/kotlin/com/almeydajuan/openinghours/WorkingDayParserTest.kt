@@ -15,11 +15,15 @@ class WorkingDayParserTest {
     @Test
     fun `Mondays open from 9 am to 6 pm`() {
         assertEquals("Monday 9 AM - 6 PM",
-            workingDayParser.convert(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.CLOSE.input, SIX_PM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, SIX_PM_UNIX)
+                        )
+                    )
                 )
             )
         )
@@ -28,11 +32,15 @@ class WorkingDayParserTest {
     @Test
     fun `Mondays open from 9 am to 11 am`() {
         assertEquals("Monday 9 AM - 11 AM",
-            workingDayParser.convert(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+                        )
+                    )
                 )
             )
         )
@@ -41,11 +49,15 @@ class WorkingDayParserTest {
     @Test
     fun `fail when day is not accepted`() {
         val message = assertThrows<RuntimeException> {
-            workingDayParser.convert(
-                day = "someday",
-                actions = listOf(
-                    DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = "someday",
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+                        )
+                    )
                 )
             )
         }.message
@@ -56,11 +68,15 @@ class WorkingDayParserTest {
     @Test
     fun `fail when action is not accepted`() {
         val message = assertThrows<RuntimeException> {
-            workingDayParser.convert(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction("someaction", NINE_AM_UNIX),
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction("someaction", NINE_AM_UNIX),
+                            DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+                        )
+                    )
                 )
             )
         }.message
@@ -71,11 +87,15 @@ class WorkingDayParserTest {
     @Test
     fun `fail when time is inconsistent`() {
         val message = assertThrows<RuntimeException> {
-            workingDayParser.convert(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX),
-                    DayAction(Action.CLOSE.input, NINE_AM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, ELEVEN_AM_UNIX),
+                            DayAction(Action.CLOSE.input, NINE_AM_UNIX)
+                        )
+                    )
                 )
             )
         }.message
@@ -86,13 +106,45 @@ class WorkingDayParserTest {
     @Test
     fun `Mondays open from 9 am to 11 am and from 1 pm to 6 pm`() {
         assertEquals("Monday 9 AM - 11 AM, 1 PM - 6 PM",
-            workingDayParser.convert(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction(Action.OPEN.input, NINE_AM_UNIX),
-                    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX),
-                    DayAction(Action.OPEN.input, ONE_PM_UNIX),
-                    DayAction(Action.CLOSE.input, SIX_PM_UNIX)
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX),
+                            DayAction(Action.OPEN.input, ONE_PM_UNIX),
+                            DayAction(Action.CLOSE.input, SIX_PM_UNIX)
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Mondays open from 9 am to 11 am and Tuesdays as well`() {
+        assertEquals(
+            """
+                Monday 9 AM - 11 AM
+                Tuesday 9 AM - 11 AM
+            """.trimIndent(),
+            workingDayParser.convertWorkingDays(
+                listOf(
+                    WorkingDay(
+                        day = Day.MONDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+                        )
+                    ),
+                    WorkingDay(
+                        day = Day.TUESDAY.input,
+                        actions = listOf(
+                            DayAction(Action.OPEN.input, NINE_AM_UNIX),
+                            DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+                        )
+                    )
                 )
             )
         )
