@@ -6,6 +6,6 @@ class ActionParser {
 }
 
 private enum class Action(val input: String, val output: String) {
-    OPEN("open", "from"),
-    CLOSE("close", "to")
+    OPEN("open", ""),
+    CLOSE("close", "-")
 }

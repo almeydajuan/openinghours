@@ -8,30 +8,28 @@ data class WorkingDayParser(
     val actionParser: ActionParser
 ) {
 
-    fun convert(day: String, action1: String, time1: Long, action2: String, time2: Long): String {
-        validateInput(day, action1, action2)
+    fun convert(day: String, actions: List<DayAction>): String {
+        validateInput(day, actions)
 
         val dayText = dayParser.parseDay(day)
-        val openText = actionParser.parseAction(action1)
-        val openTime = timeConverter.convert(time1)
-        val closeText = actionParser.parseAction(action2)
-        val closeTime = timeConverter.convert(time2)
+        val openTime = timeConverter.convert(actions[0].timestamp)
+        val closeText = actionParser.parseAction(actions[1].action)
+        val closeTime = timeConverter.convert(actions[1].timestamp)
 
-        return "$dayText $openText $openTime $closeText $closeTime"
+        return "$dayText $openTime $closeText $closeTime"
     }
 
-    private fun validateInput(day: String, action1: String, action2: String) {
+    private fun validateInput(day: String, actions: List<DayAction>) {
         if (!dayParser.containsDay(day)) {
             throw RuntimeException(DAY_NOT_SUPPORTED)
         }
-        if (!actionParser.containsAction(action1)) {
-            throw RuntimeException(ACTION_NOT_SUPPORTED)
-        }
-        if (!actionParser.containsAction(action2)) {
+        if (actions.any { !actionParser.containsAction(it.action) }) {
             throw RuntimeException(ACTION_NOT_SUPPORTED)
         }
     }
 }
+
+data class DayAction(val action: String, val timestamp: Long)
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"
