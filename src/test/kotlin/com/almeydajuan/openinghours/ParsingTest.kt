@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class WorkingDayParserTest {
+class ParsingTest {
 
-    private val workingDayParser = WorkingDayParser(
-        timeConverter = UnixTimestampConverter(),
-        dayParser = DayParser(),
-        actionParser = ActionParser()
+    private val workingDayParser = WorkingWeekParser(
+        WorkingDayParser(
+            timeConverter = UnixTimestampConverter(),
+            dayParser = DayParser(),
+            actionParser = ActionParser()
+        )
     )
 
     @Test

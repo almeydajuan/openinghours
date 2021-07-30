@@ -6,41 +6,28 @@ data class WorkingDayParser(
     val actionParser: ActionParser
 ) {
 
-    fun convertWorkingDays(workingDays: List<WorkingDay>): String {
-        val text = StringBuilder("")
-        workingDays.forEach {
-            if (text.isNotBlank()) {
-                text.append("\n")
+    fun parseCloseWorkingDay(workingDay: WorkingDay) =
+        "${dayParser.parseDay(workingDay.day)}: Closed"
+
+    fun parseNormalWorkingDay(workingDay: WorkingDay): String {
+        val text = StringBuffer()
+        validateInput(workingDay.day, workingDay.actions)
+
+        text.append(dayParser.parseDay(workingDay.day))
+        text.append(": ")
+
+        workingDay.actions.zipWithNext().forEach {
+            val first = it.first
+            val second = it.second
+            if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
+                text.append(timeConverter.convert(first.timestamp))
+                text.append(" ")
+                text.append(actionParser.parseAction(second.action))
+                text.append(" ")
+                text.append(timeConverter.convert(second.timestamp))
             }
-            text.append(convertWorkingDay(it))
-        }
-        return text.toString()
-    }
-
-    private fun convertWorkingDay(workingDay: WorkingDay): String {
-        val text = StringBuilder()
-        if (workingDay.isEmptyWorkingDay()) {
-            text.append(dayParser.parseDay(workingDay.day))
-            text.append(": Closed")
-        } else {
-            validateInput(workingDay.day, workingDay.actions)
-
-            text.append(dayParser.parseDay(workingDay.day))
-            text.append(": ")
-
-            workingDay.actions.zipWithNext().forEach {
-                val first = it.first
-                val second = it.second
-                if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
-                    text.append(timeConverter.convert(first.timestamp))
-                    text.append(" ")
-                    text.append(actionParser.parseAction(second.action))
-                    text.append(" ")
-                    text.append(timeConverter.convert(second.timestamp))
-                }
-                if (first.action == Action.CLOSE.input) {
-                    text.append(", ")
-                }
+            if (first.action == Action.CLOSE.input) {
+                text.append(", ")
             }
         }
         return text.toString()
@@ -63,10 +50,6 @@ private fun List<DayAction>.isSorted(): Boolean =
     this.map { it.timestamp }.sorted() == this.map { it.timestamp }
 
 data class DayAction(val action: String, val timestamp: Long)
-
-data class WorkingDay(val day: String, val actions: List<DayAction>) {
-    fun isEmptyWorkingDay() = actions.size < 2
-}
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"
