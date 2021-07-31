@@ -2,7 +2,10 @@ package com.almeydajuan.openinghours
 
 import com.almeydajuan.openinghours.validator.TIMES_ARE_INCONSISTENT
 
+@Deprecated("to remove soon")
 class WorkingDayParser {
+
+    private val timeConverter = UnixTimestampConverter()
 
     fun parseCloseWorkingDay(workingDay: WorkingDay) =
         "${DayProvider.parseDay(workingDay.day)}: Closed"
@@ -18,11 +21,11 @@ class WorkingDayParser {
             val first = it.first
             val second = it.second
             if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
-                text.append(UnixTimestampConverter.convert(first.timestamp))
+                text.append(timeConverter.convert(first.timestamp))
                 text.append(" ")
                 text.append(ActionProvider.parseAction(second.action))
                 text.append(" ")
-                text.append(UnixTimestampConverter.convert(second.timestamp))
+                text.append(timeConverter.convert(second.timestamp))
             }
             if (first.action == Action.CLOSE.input) {
                 text.append(", ")
