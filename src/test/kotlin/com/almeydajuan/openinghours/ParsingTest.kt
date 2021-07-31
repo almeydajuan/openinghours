@@ -97,14 +97,8 @@ class ParsingTest {
             """.trimIndent(),
             workingDayParser.convertWorkingDays(
                 listOf(
-                    WorkingDay(
-                        day = Day.MONDAY.input,
-                        actions = nineToEleven
-                    ),
-                    WorkingDay(
-                        day = Day.TUESDAY.input,
-                        actions = nineToEleven
-                    )
+                    typicalMonday,
+                    typicalMonday.copy(day = Day.TUESDAY.input)
                 )
             )
         )
@@ -162,7 +156,7 @@ class ParsingTest {
                     ),
                     WorkingDay(
                         day = Day.TUESDAY.input,
-                        actions = listOf(DayAction(Action.OPEN.input, ONE_AM_UNIX))
+                        actions = listOf(DayAction(Action.CLOSE.input, ONE_AM_UNIX))
                     )
                 )
             )

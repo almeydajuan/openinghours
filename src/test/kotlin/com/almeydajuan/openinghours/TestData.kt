@@ -7,6 +7,7 @@ const val ONE_PM_UNIX: Long = 46800
 const val SIX_PM_UNIX: Long = 64800
 
 val openingNineToEleven = OpeningTime(NINE_AM_UNIX, ELEVEN_AM_UNIX)
+val openingOneToSix = OpeningTime(ONE_PM_UNIX, SIX_PM_UNIX)
 
 val nineToEleven = listOf(
     DayAction(Action.OPEN.input, NINE_AM_UNIX),
