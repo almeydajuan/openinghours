@@ -9,7 +9,6 @@ import com.almeydajuan.openinghours.provider.Action.OPEN
 import com.almeydajuan.openinghours.provider.Day.WEDNESDAY
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
