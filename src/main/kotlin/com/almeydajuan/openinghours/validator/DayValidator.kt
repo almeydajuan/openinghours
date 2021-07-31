@@ -4,16 +4,15 @@ import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
 import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
 import com.almeydajuan.openinghours.DayAction
-import com.almeydajuan.openinghours.DayParser
+import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
 
 data class DayValidator(
-    val dayParser: DayParser,
     val actionParser: ActionParser
-    ) {
+) {
 
     fun isValid(day: String, actions: List<DayAction>): Boolean {
-        if (!dayParser.containsDay(day)) {
+        if (!DayProvider.containsDay(day)) {
             throw RuntimeException(DAY_NOT_SUPPORTED)
         }
         if (actions.any { !actionParser.containsAction(it.action) }) {

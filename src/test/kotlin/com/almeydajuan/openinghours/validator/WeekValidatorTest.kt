@@ -2,7 +2,6 @@ package com.almeydajuan.openinghours.validator
 
 import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.Day
-import com.almeydajuan.openinghours.DayParser
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.assertThrows
 
 class WeekValidatorTest {
 
-    private val weekValidator = WeekValidator(DayValidator(DayParser(), ActionParser()))
+    private val weekValidator = WeekValidator(DayValidator(ActionParser()))
 
     @Test
     fun `fail when weekday is empty`() {

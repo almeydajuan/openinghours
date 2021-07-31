@@ -10,7 +10,6 @@ class ParsingTest {
     private val workingDayParser = WorkingWeekParser(
         WorkingDayParser(
             timeConverter = UnixTimestampConverter(),
-            dayParser = DayParser(),
             actionParser = ActionParser()
         )
     )

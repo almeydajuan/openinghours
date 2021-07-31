@@ -6,7 +6,6 @@ import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
 import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.DayAction
-import com.almeydajuan.openinghours.DayParser
 import com.almeydajuan.openinghours.ELEVEN_AM_UNIX
 import com.almeydajuan.openinghours.NINE_AM_UNIX
 import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
@@ -20,7 +19,7 @@ import org.junit.jupiter.api.assertThrows
 
 class DayValidatorTest {
 
-    private val dayValidator = DayValidator(DayParser(), ActionParser())
+    private val dayValidator = DayValidator(ActionParser())
 
     @Test
     fun `fail when day is not accepted`() {
