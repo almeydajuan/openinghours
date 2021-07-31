@@ -17,13 +17,13 @@ class WeekValidatorTest {
 
     @Test
     fun `accept week with valid days`() {
-        assertTrue(WeekValidator.isValid(listOf(typicalMonday, typicalMonday.copy(day = WEDNESDAY.input))))
+        WeekValidator.validateWorkingWeek(listOf(typicalMonday, typicalMonday.copy(day = WEDNESDAY.input)))
     }
 
     @Test
     fun `fail when weekday is empty`() {
         val message = assertThrows<RuntimeException> {
-            WeekValidator.isValid(emptyList())
+            WeekValidator.validateWorkingWeek(emptyList())
         }.message
 
         assertEquals(EMPTY_WEEK, message)
@@ -32,7 +32,7 @@ class WeekValidatorTest {
     @Test
     fun `fail when weekday is repeated`() {
         val message = assertThrows<RuntimeException> {
-            WeekValidator.isValid(listOf(typicalMonday, typicalMonday))
+            WeekValidator.validateWorkingWeek(listOf(typicalMonday, typicalMonday))
         }.message
 
         assertEquals(DAYS_ARE_REPEATED, message)
@@ -41,7 +41,7 @@ class WeekValidatorTest {
     @Test
     fun `fail when weekday has a wrong format`() {
         assertThrows<RuntimeException> {
-            WeekValidator.isValid(listOf(
+            WeekValidator.validateWorkingWeek(listOf(
                 typicalMonday.copy(day = "wrong day")
             ))
         }
@@ -50,7 +50,7 @@ class WeekValidatorTest {
     @Test
     fun `fail when inconsistent open and closing times`() {
         val message = assertThrows<RuntimeException> {
-            WeekValidator.isValid(listOf(typicalMonday.copy(
+            WeekValidator.validateWorkingWeek(listOf(typicalMonday.copy(
                 transitions = listOf(
                     Transition(CLOSE.input, ONE_PM_UNIX),
                     Transition(OPEN.input, SIX_PM_UNIX),
@@ -64,7 +64,7 @@ class WeekValidatorTest {
     @Test
     fun `unfinished opening times cannot be processed`() {
         val message = assertThrows<RuntimeException> {
-            WeekValidator.isValid(listOf(typicalMonday.copy(transitions = listOf(nineToEleven.first()))))
+            WeekValidator.validateWorkingWeek(listOf(typicalMonday.copy(transitions = listOf(nineToEleven.first()))))
         }.message
 
         assertEquals(TIMES_ARE_INCONSISTENT, message)

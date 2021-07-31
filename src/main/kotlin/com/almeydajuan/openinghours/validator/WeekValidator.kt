@@ -8,7 +8,7 @@ import com.almeydajuan.openinghours.isAmountOfOpeningAndClosingActionsConsistent
 class WeekValidator {
 
     companion object {
-        fun isValid(workingWeek: WorkingWeek): Boolean {
+        fun validateWorkingWeek(workingWeek: WorkingWeek) {
             workingWeek.forEach { DayValidator.isValid(it) }
             if (workingWeek.areDaysRepeated()) {
                 throw RuntimeException(DAYS_ARE_REPEATED)
@@ -23,7 +23,6 @@ class WeekValidator {
             if (restaurantTransitions.areOpeningAndClosingTimesInConsistentOrder()) {
                 throw RuntimeException(INCONSISTENT_ORDER_OPEN_CLOSE_TIMES)
             }
-            return true
         }
     }
 }
