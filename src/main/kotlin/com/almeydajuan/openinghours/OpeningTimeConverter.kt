@@ -8,7 +8,10 @@ class OpeningTimeConverter {
                 workingDay.transitions.map {
                     Transition(
                         action = it.action,
-                        timestamp = it.timestamp + DayProvider.calculateOffset(workingDay.day)
+                        timestamp = DayProvider.calculateTimeForDay(
+                            DayProvider.findDayByInputName(workingDay.day),
+                            it.timestamp
+                        )
                     )
                 }
             }
