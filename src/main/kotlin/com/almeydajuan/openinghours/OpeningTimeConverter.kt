@@ -39,6 +39,6 @@ class OpeningTimeConverter {
 }
 
 data class OpeningTime(
-    private val openingTime: Long,
-    private val closingTime: Long
+    val openingTime: Long,
+    val closingTime: Long
 )
