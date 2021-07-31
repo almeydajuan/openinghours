@@ -9,6 +9,7 @@ import com.almeydajuan.openinghours.DayAction
 import com.almeydajuan.openinghours.DayParser
 import com.almeydajuan.openinghours.ELEVEN_AM_UNIX
 import com.almeydajuan.openinghours.NINE_AM_UNIX
+import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
 import com.almeydajuan.openinghours.nineToEleven
 import com.almeydajuan.openinghours.oneToSix
 import com.almeydajuan.openinghours.typicalMonday
@@ -46,6 +47,18 @@ class DayValidatorTest {
         }.message
 
         assertEquals(ACTION_NOT_SUPPORTED, message)
+    }
+
+    @Test
+    fun `fail when times are not ordered`() {
+        val message = assertThrows<RuntimeException> {
+            dayValidator.isValid(
+                day = Day.MONDAY.input,
+                actions = nineToEleven.reversed()
+            )
+        }.message
+
+        assertEquals(TIMES_ARE_INCONSISTENT, message)
     }
 
     @Test

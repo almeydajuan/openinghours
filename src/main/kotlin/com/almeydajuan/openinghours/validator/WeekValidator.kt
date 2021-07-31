@@ -1,6 +1,5 @@
 package com.almeydajuan.openinghours.validator
 
-import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.WorkingDay
 
 data class WeekValidator(
@@ -14,12 +13,12 @@ data class WeekValidator(
         if (workingDays.map { it.day }.toSet().size != workingDays.size) {
             throw RuntimeException(DAYS_ARE_REPEATED)
         }
-        if (workingDays.map { it.day }.size != Day.values().size) {
-            throw RuntimeException(DAYS_MISSING_IN_THE_WEEK)
+        if (workingDays.isEmpty()) {
+            throw RuntimeException(EMPTY_WEEK)
         }
         return true
     }
 }
 
-const val DAYS_MISSING_IN_THE_WEEK = "Days are missing"
+const val EMPTY_WEEK = "Week is empty"
 const val DAYS_ARE_REPEATED = "Days are repeated"

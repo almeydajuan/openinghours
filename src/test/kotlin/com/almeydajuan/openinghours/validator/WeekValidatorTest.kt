@@ -3,7 +3,6 @@ package com.almeydajuan.openinghours.validator
 import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.DayParser
-import com.almeydajuan.openinghours.WorkingDay
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -15,12 +14,12 @@ class WeekValidatorTest {
     private val weekValidator = WeekValidator(DayValidator(DayParser(), ActionParser()))
 
     @Test
-    fun `fail when weekday is missing`() {
+    fun `fail when weekday is empty`() {
         val message = assertThrows<RuntimeException> {
             weekValidator.isValid(emptyList())
         }.message
 
-        assertEquals(DAYS_MISSING_IN_THE_WEEK, message)
+        assertEquals(EMPTY_WEEK, message)
     }
 
     @Test
@@ -42,8 +41,8 @@ class WeekValidatorTest {
     }
 
     @Test
-    fun `accept complete week`() {
-        assertTrue(weekValidator.isValid(Day.values().map { WorkingDay(it.input, emptyList()) }))
+    fun `accept week with valid days`() {
+        assertTrue(weekValidator.isValid(listOf(typicalMonday, typicalMonday.copy(day = Day.WEDNESDAY.input))))
     }
 }
 
