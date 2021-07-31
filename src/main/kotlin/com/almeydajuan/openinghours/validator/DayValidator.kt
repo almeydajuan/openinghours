@@ -7,7 +7,7 @@ import com.almeydajuan.openinghours.DayAction
 import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
 
-class DayValidator{
+class DayValidator {
 
     companion object {
         fun isValid(day: String, actions: List<DayAction>): Boolean {
@@ -20,10 +20,17 @@ class DayValidator{
             if (!actions.isSorted()) {
                 throw RuntimeException(TIMES_ARE_INCONSISTENT)
             }
+            if (actions.any { isOutOfRange(it.timestamp) }) {
+                throw RuntimeException(OUT_OF_RANGE_DATE)
+            }
             return true
         }
+
+        private fun isOutOfRange(unixTimestamp: Long) = unixTimestamp < 0 || unixTimestamp > 86399
     }
 }
 
 private fun List<DayAction>.isSorted(): Boolean =
     this.map { it.timestamp }.sorted() == this.map { it.timestamp }
+
+const val OUT_OF_RANGE_DATE = "date is out of range"

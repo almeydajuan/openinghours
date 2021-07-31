@@ -16,8 +16,6 @@ class UnixTimestampConverter {
         private val minutesFormatter = SimpleDateFormat("mm")
 
         fun convert(unixTimestamp: Long): String {
-            validateInput(unixTimestamp)
-
             val date = Date.from(Instant.ofEpochSecond(unixTimestamp))
             val hour = hourFormatter.format(date).toInt()
             val minutes = minutesFormatter.format(date).toString().toInt()
@@ -28,13 +26,5 @@ class UnixTimestampConverter {
 
             return "$hourText$minutesText $meridiem"
         }
-
-        private fun validateInput(unixTimestamp: Long) {
-            if (unixTimestamp < 0 || unixTimestamp > 86399) {
-                throw RuntimeException(OUT_OF_RANGE_DATE)
-            }
-        }
     }
 }
-
-const val OUT_OF_RANGE_DATE = "date is out of range"
