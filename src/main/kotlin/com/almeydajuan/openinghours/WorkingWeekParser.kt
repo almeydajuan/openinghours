@@ -1,5 +1,6 @@
 package com.almeydajuan.openinghours
 
+@Deprecated("to remove")
 data class WorkingWeekParser(
     val workingDayParser: WorkingDayParser
 ) {
