@@ -1,6 +1,10 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.parser
 
-import com.almeydajuan.openinghours.parser.OpeningTimeParser
+import com.almeydajuan.openinghours.DAY_OFFSET
+import com.almeydajuan.openinghours.ONE_AM_UNIX
+import com.almeydajuan.openinghours.ONE_PM_UNIX
+import com.almeydajuan.openinghours.OpeningTime
+import com.almeydajuan.openinghours.openingNineToEleven
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

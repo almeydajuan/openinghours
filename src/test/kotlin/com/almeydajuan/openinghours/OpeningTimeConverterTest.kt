@@ -26,7 +26,7 @@ class OpeningTimeConverterTest {
     }
 
     @Test
-    fun `Several days can be processed`() {
+    fun `several days can be processed`() {
         assertEquals(
             listOf(
                 openingNineToEleven,
