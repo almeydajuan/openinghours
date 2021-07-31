@@ -1,4 +1,4 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.provider
 
 class ActionProvider {
     companion object {

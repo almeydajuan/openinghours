@@ -1,5 +1,10 @@
 package com.almeydajuan.openinghours
 
+import com.almeydajuan.openinghours.provider.Action.CLOSE
+import com.almeydajuan.openinghours.provider.Action.OPEN
+import com.almeydajuan.openinghours.provider.DAY_OFFSET
+import com.almeydajuan.openinghours.provider.Day
+import com.almeydajuan.openinghours.provider.Day.MONDAY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -17,7 +22,7 @@ class OpeningTimeConverterTest {
             OpeningTimeConverter.convert(
                 listOf(
                     WorkingDay(
-                        day = Day.MONDAY.input,
+                        day = MONDAY.input,
                         transitions = nineToEleven + oneToSix
                     )
                 )
@@ -53,12 +58,12 @@ class OpeningTimeConverterTest {
             OpeningTimeConverter.convert(
                 listOf(
                     WorkingDay(
-                        day = Day.MONDAY.input,
-                        transitions = listOf(Transition(Action.OPEN.input, ONE_PM_UNIX))
+                        day = MONDAY.input,
+                        transitions = listOf(Transition(OPEN.input, ONE_PM_UNIX))
                     ),
                     WorkingDay(
                         day = Day.TUESDAY.input,
-                        transitions = listOf(Transition(Action.CLOSE.input, ONE_AM_UNIX))
+                        transitions = listOf(Transition(CLOSE.input, ONE_AM_UNIX))
                     )
                 )
             )

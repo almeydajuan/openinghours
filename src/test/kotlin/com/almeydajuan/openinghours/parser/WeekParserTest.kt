@@ -1,18 +1,17 @@
 package com.almeydajuan.openinghours.parser
 
-import com.almeydajuan.openinghours.Day
-import com.almeydajuan.openinghours.Day.TUESDAY
-import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.ONE_AM_UNIX
-import com.almeydajuan.openinghours.UnixTimestampConverter
 import com.almeydajuan.openinghours.openingNineToEleven
 import com.almeydajuan.openinghours.openingOneToSix
+import com.almeydajuan.openinghours.provider.Day
+import com.almeydajuan.openinghours.provider.Day.TUESDAY
+import com.almeydajuan.openinghours.provider.DayProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class WeekParserTest {
 
-    private val weekParser = WeekParser(DayParser(UnixTimestampConverter()))
+    private val weekParser = WeekParser(DayParser(UnixTimestampParser()))
 
     @Test
     fun `parse empty week`() {

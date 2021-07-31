@@ -1,11 +1,9 @@
 package com.almeydajuan.openinghours.validator
 
-import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
-import com.almeydajuan.openinghours.ActionProvider
-import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
-import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.WorkingDay
 import com.almeydajuan.openinghours.areSorted
+import com.almeydajuan.openinghours.provider.ActionProvider
+import com.almeydajuan.openinghours.provider.DayProvider
 
 class DayValidator {
 
@@ -31,3 +29,5 @@ class DayValidator {
 }
 
 const val OUT_OF_RANGE_DATE = "date is out of range"
+const val DAY_NOT_SUPPORTED = "Day is not supported"
+const val ACTION_NOT_SUPPORTED = "Action is not supported"

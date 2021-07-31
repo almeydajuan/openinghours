@@ -1,5 +1,7 @@
 package com.almeydajuan.openinghours
 
+import com.almeydajuan.openinghours.provider.Action
+
 typealias RestaurantTransitions = List<Transition>
 
 fun RestaurantTransitions.areOpeningAndClosingTimesInConsistentOrder() =
@@ -10,3 +12,8 @@ fun RestaurantTransitions.isAmountOfOpeningAndClosingActionsConsistent() =
 
 fun RestaurantTransitions.areSorted(): Boolean =
     this.map { it.timestamp }.sorted() == this.map { it.timestamp }
+
+data class Transition(val action: String, val timestamp: Long) {
+    fun isOpen() = action == Action.OPEN.input
+    fun isClose() = action == Action.CLOSE.input
+}

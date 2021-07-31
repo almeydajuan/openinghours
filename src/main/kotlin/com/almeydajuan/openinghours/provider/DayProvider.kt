@@ -1,4 +1,6 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.provider
+
+import com.almeydajuan.openinghours.OpeningTime
 
 class DayProvider {
     companion object {

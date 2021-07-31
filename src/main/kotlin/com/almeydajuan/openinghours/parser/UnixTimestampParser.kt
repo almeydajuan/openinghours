@@ -1,11 +1,11 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.parser
 
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
 import java.util.TimeZone
 
-class UnixTimestampConverter {
+class UnixTimestampParser {
 
     private val hourFormatter = SimpleDateFormat("HH").apply {
         timeZone = TimeZone.getTimeZone("UTC")

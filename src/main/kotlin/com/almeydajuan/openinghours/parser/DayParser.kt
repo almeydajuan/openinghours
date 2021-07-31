@@ -1,10 +1,9 @@
 package com.almeydajuan.openinghours.parser
 
-import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.OpeningTime
-import com.almeydajuan.openinghours.UnixTimestampConverter
+import com.almeydajuan.openinghours.provider.Day
 
-data class DayParser(private val timeConverter: UnixTimestampConverter) {
+data class DayParser(private val timeParser: UnixTimestampParser) {
 
     fun parseWorkingDay(day: Day, openingTimes: List<OpeningTime>): String {
         val text = StringBuffer()
@@ -17,9 +16,9 @@ data class DayParser(private val timeConverter: UnixTimestampConverter) {
                 if (index > 0) {
                     text.append(", ")
                 }
-                text.append(timeConverter.convert(openingTime.openingTime))
+                text.append(timeParser.convert(openingTime.openingTime))
                 text.append(" - ")
-                text.append(timeConverter.convert(openingTime.closingTime))
+                text.append(timeParser.convert(openingTime.closingTime))
             }
         }
         return text.toString()

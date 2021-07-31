@@ -1,17 +1,16 @@
 package com.almeydajuan.openinghours.parser
 
 import com.almeydajuan.openinghours.OpeningTime
-import com.almeydajuan.openinghours.UnixTimestampConverter
 
 data class OpeningTimeParser(
-    private val timeConverter: UnixTimestampConverter
+    private val timeParser: UnixTimestampParser
 ) {
 
     fun parseOpeningTime(openingTime: OpeningTime): String {
         val text = StringBuilder()
-        text.append(timeConverter.convert(openingTime.openingTime))
+        text.append(timeParser.convert(openingTime.openingTime))
         text.append(" - ")
-        text.append(timeConverter.convert(openingTime.closingTime))
+        text.append(timeParser.convert(openingTime.closingTime))
         return text.toString()
     }
 }

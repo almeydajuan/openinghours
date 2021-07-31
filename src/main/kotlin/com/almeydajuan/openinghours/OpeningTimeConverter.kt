@@ -1,5 +1,7 @@
 package com.almeydajuan.openinghours
 
+import com.almeydajuan.openinghours.provider.DayProvider
+
 class OpeningTimeConverter {
 
     companion object {

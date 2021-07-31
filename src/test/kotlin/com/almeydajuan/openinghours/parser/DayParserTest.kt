@@ -1,15 +1,14 @@
 package com.almeydajuan.openinghours.parser
 
-import com.almeydajuan.openinghours.Day.MONDAY
-import com.almeydajuan.openinghours.UnixTimestampConverter
 import com.almeydajuan.openinghours.openingNineToEleven
 import com.almeydajuan.openinghours.openingOneToSix
+import com.almeydajuan.openinghours.provider.Day.MONDAY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DayParserTest {
 
-    private val dayParser = DayParser(UnixTimestampConverter())
+    private val dayParser = DayParser(UnixTimestampParser())
 
     @Test
     fun `Mondays open from 9 am to 11 am`() {

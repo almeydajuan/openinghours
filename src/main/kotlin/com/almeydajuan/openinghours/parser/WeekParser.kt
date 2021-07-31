@@ -1,8 +1,8 @@
 package com.almeydajuan.openinghours.parser
 
-import com.almeydajuan.openinghours.Day
-import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.OpeningTime
+import com.almeydajuan.openinghours.provider.Day
+import com.almeydajuan.openinghours.provider.DayProvider
 
 data class WeekParser(val dayParser: DayParser) {
 

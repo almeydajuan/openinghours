@@ -1,11 +1,12 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.parser
 
+import com.almeydajuan.openinghours.NINE_AM_UNIX
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class UnixTimestampConverterTest {
+class UnixTimestampParserTest {
 
-    private val timeConverter = UnixTimestampConverter()
+    private val timeConverter = UnixTimestampParser()
 
     @Test
     fun `convert 9 AM unix time to human readable format`() {

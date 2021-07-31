@@ -1,14 +1,13 @@
 package com.almeydajuan.openinghours.validator
 
-import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
-import com.almeydajuan.openinghours.Action
-import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
-import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.ELEVEN_AM_UNIX
 import com.almeydajuan.openinghours.NINE_AM_UNIX
 import com.almeydajuan.openinghours.Transition
 import com.almeydajuan.openinghours.nineToEleven
 import com.almeydajuan.openinghours.oneToSix
+import com.almeydajuan.openinghours.provider.Action
+import com.almeydajuan.openinghours.provider.Action.OPEN
+import com.almeydajuan.openinghours.provider.Day.WEDNESDAY
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -37,7 +36,7 @@ class DayValidatorTest {
                 typicalMonday.copy(
                     transitions = listOf(
                         Transition("someaction", NINE_AM_UNIX),
-                        Transition(Action.OPEN.input, ELEVEN_AM_UNIX)
+                        Transition(OPEN.input, ELEVEN_AM_UNIX)
                     )
                 )
             )
@@ -104,7 +103,7 @@ class DayValidatorTest {
     @Test
     fun `Several days with several times are valid`() {
         assertTrue(DayValidator.isValid(typicalMonday.copy(transitions = nineToEleven + oneToSix)))
-        assertTrue(DayValidator.isValid(typicalMonday.copy(day = Day.WEDNESDAY.input, transitions = nineToEleven + oneToSix)))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(day = WEDNESDAY.input, transitions = nineToEleven + oneToSix)))
     }
 
     @Test
