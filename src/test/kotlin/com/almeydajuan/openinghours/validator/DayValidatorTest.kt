@@ -4,10 +4,9 @@ import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
 import com.almeydajuan.openinghours.Action
 import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
 import com.almeydajuan.openinghours.Day
-import com.almeydajuan.openinghours.DayAction
 import com.almeydajuan.openinghours.ELEVEN_AM_UNIX
 import com.almeydajuan.openinghours.NINE_AM_UNIX
-import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
+import com.almeydajuan.openinghours.Transition
 import com.almeydajuan.openinghours.nineToEleven
 import com.almeydajuan.openinghours.oneToSix
 import com.almeydajuan.openinghours.typicalMonday
@@ -22,8 +21,9 @@ class DayValidatorTest {
     fun `fail when day is not accepted`() {
         val message = assertThrows<RuntimeException> {
             DayValidator.isValid(
-                day = "someday",
-                actions = nineToEleven
+                typicalMonday.copy(
+                    day = "someday"
+                )
             )
         }.message
 
@@ -31,13 +31,14 @@ class DayValidatorTest {
     }
 
     @Test
-    fun `fail when action is not accepted`() {
+    fun `fail when transition is not accepted`() {
         val message = assertThrows<RuntimeException> {
             DayValidator.isValid(
-                day = Day.MONDAY.input,
-                actions = listOf(
-                    DayAction("someaction", NINE_AM_UNIX),
-                    DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+                typicalMonday.copy(
+                    transitions = listOf(
+                        Transition("someaction", NINE_AM_UNIX),
+                        Transition(Action.OPEN.input, ELEVEN_AM_UNIX)
+                    )
                 )
             )
         }.message
@@ -49,8 +50,9 @@ class DayValidatorTest {
     fun `fail when times are not ordered`() {
         val message = assertThrows<RuntimeException> {
             DayValidator.isValid(
-                day = Day.MONDAY.input,
-                actions = nineToEleven.reversed()
+                typicalMonday.copy(
+                    transitions = nineToEleven.reversed()
+                )
             )
         }.message
 
@@ -58,13 +60,39 @@ class DayValidatorTest {
     }
 
     @Test
+    fun `fail when underflow value`() {
+        val message = assertThrows<RuntimeException> {
+            DayValidator.isValid(
+                typicalMonday.copy(
+                    transitions = nineToEleven.map { it.copy(timestamp = -1) }
+                )
+            )
+        }.message
+
+        assertEquals(OUT_OF_RANGE_DATE, message)
+    }
+
+    @Test
+    fun `fail when overflow value`() {
+        val message = assertThrows<RuntimeException> {
+            DayValidator.isValid(
+                typicalMonday.copy(
+                    transitions = nineToEleven.map { it.copy(timestamp = 86400) }
+                )
+            )
+        }.message
+
+        assertEquals(OUT_OF_RANGE_DATE, message)
+    }
+
+    @Test
     fun `Mondays open from 9 am to 11 am is valid`() {
-        assertTrue(DayValidator.isValid(typicalMonday.day, typicalMonday.actions))
+        assertTrue(DayValidator.isValid(typicalMonday))
     }
 
     @Test
     fun `Mondays open from 9 am to 11 am and from 1 pm to 6 pm is valid`() {
-        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(transitions = nineToEleven + oneToSix)))
     }
 
     /**
@@ -75,17 +103,17 @@ class DayValidatorTest {
      */
     @Test
     fun `Several days with several times are valid`() {
-        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
-        assertTrue(DayValidator.isValid(day = Day.WEDNESDAY.input, actions = nineToEleven + oneToSix))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(transitions = nineToEleven + oneToSix)))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(day = Day.WEDNESDAY.input, transitions = nineToEleven + oneToSix)))
     }
 
     @Test
     fun `Empty day is valid`() {
-        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = emptyList()))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(transitions = emptyList())))
     }
 
     @Test
     fun `Day with only closing time is valid`() {
-        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = listOf(DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX))))
+        assertTrue(DayValidator.isValid(typicalMonday.copy(transitions = listOf(Transition(Action.CLOSE.input, ELEVEN_AM_UNIX)))))
     }
 }

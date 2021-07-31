@@ -2,18 +2,8 @@ package com.almeydajuan.openinghours
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class OpeningTimeConverterTest {
-
-    @Test
-    fun `unfinished opening times cannot be processed`() {
-        val message = assertThrows<RuntimeException> {
-            OpeningTimeConverter.convert(listOf(typicalMonday.copy(actions = listOf(nineToEleven.first()))))
-        }.message
-
-        assertEquals(TIMES_ARE_INCONSISTENT, message)
-    }
 
     @Test
     fun `Mondays open from 9 am to 11 am can be processed`() {
@@ -28,7 +18,7 @@ class OpeningTimeConverterTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = nineToEleven + oneToSix
+                        transitions = nineToEleven + oneToSix
                     )
                 )
             )
@@ -64,11 +54,11 @@ class OpeningTimeConverterTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf(DayAction(Action.OPEN.input, ONE_PM_UNIX))
+                        transitions = listOf(Transition(Action.OPEN.input, ONE_PM_UNIX))
                     ),
                     WorkingDay(
                         day = Day.TUESDAY.input,
-                        actions = listOf(DayAction(Action.CLOSE.input, ONE_AM_UNIX))
+                        transitions = listOf(Transition(Action.CLOSE.input, ONE_AM_UNIX))
                     )
                 )
             )

@@ -1,5 +1,6 @@
 package com.almeydajuan.openinghours
 
+import com.almeydajuan.openinghours.validator.TIMES_ARE_INCONSISTENT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -25,7 +26,7 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = "someday",
-                        actions = nineToEleven
+                        transitions = nineToEleven
                     )
                 )
             )
@@ -41,9 +42,9 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction("someaction", NINE_AM_UNIX),
-                            DayAction(Action.OPEN.input, ELEVEN_AM_UNIX)
+                        transitions = listOf(
+                            Transition("someaction", NINE_AM_UNIX),
+                            Transition(Action.OPEN.input, ELEVEN_AM_UNIX)
                         )
                     )
                 )
@@ -60,9 +61,9 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf(
-                            DayAction(Action.OPEN.input, ELEVEN_AM_UNIX),
-                            DayAction(Action.CLOSE.input, NINE_AM_UNIX)
+                        transitions = listOf(
+                            Transition(Action.OPEN.input, ELEVEN_AM_UNIX),
+                            Transition(Action.CLOSE.input, NINE_AM_UNIX)
                         )
                     )
                 )
@@ -79,7 +80,7 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = nineToEleven + oneToSix
+                        transitions = nineToEleven + oneToSix
                     )
                 )
             )
@@ -113,11 +114,11 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = nineToEleven + oneToSix
+                        transitions = nineToEleven + oneToSix
                     ),
                     WorkingDay(
                         day = Day.WEDNESDAY.input,
-                        actions = nineToEleven + oneToSix
+                        transitions = nineToEleven + oneToSix
                     )
                 )
             )
@@ -132,7 +133,7 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = listOf()
+                        transitions = listOf()
                     )
                 )
             )
@@ -150,11 +151,11 @@ class ParsingTest {
                 listOf(
                     WorkingDay(
                         day = Day.MONDAY.input,
-                        actions = nineToEleven + listOf(DayAction(Action.OPEN.input, ONE_PM_UNIX))
+                        transitions = nineToEleven + listOf(Transition(Action.OPEN.input, ONE_PM_UNIX))
                     ),
                     WorkingDay(
                         day = Day.TUESDAY.input,
-                        actions = listOf(DayAction(Action.CLOSE.input, ONE_AM_UNIX))
+                        transitions = listOf(Transition(Action.CLOSE.input, ONE_AM_UNIX))
                     )
                 )
             )

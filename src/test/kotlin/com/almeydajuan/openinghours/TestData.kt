@@ -10,16 +10,16 @@ val openingNineToEleven = OpeningTime(NINE_AM_UNIX, ELEVEN_AM_UNIX)
 val openingOneToSix = OpeningTime(ONE_PM_UNIX, SIX_PM_UNIX)
 
 val nineToEleven = listOf(
-    DayAction(Action.OPEN.input, NINE_AM_UNIX),
-    DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX)
+    Transition(Action.OPEN.input, NINE_AM_UNIX),
+    Transition(Action.CLOSE.input, ELEVEN_AM_UNIX)
 )
 
 val oneToSix = listOf(
-    DayAction(Action.OPEN.input, ONE_PM_UNIX),
-    DayAction(Action.CLOSE.input, SIX_PM_UNIX)
+    Transition(Action.OPEN.input, ONE_PM_UNIX),
+    Transition(Action.CLOSE.input, SIX_PM_UNIX)
 )
 
 val typicalMonday = WorkingDay(
     day = Day.MONDAY.input,
-    actions = nineToEleven
+    transitions = nineToEleven
 )

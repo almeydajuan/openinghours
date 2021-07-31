@@ -1,5 +1,7 @@
 package com.almeydajuan.openinghours
 
+import com.almeydajuan.openinghours.validator.TIMES_ARE_INCONSISTENT
+
 class WorkingDayParser {
 
     fun parseCloseWorkingDay(workingDay: WorkingDay) =
@@ -7,12 +9,12 @@ class WorkingDayParser {
 
     fun parseNormalWorkingDay(workingDay: WorkingDay): String {
         val text = StringBuffer()
-        validateInput(workingDay.day, workingDay.actions)
+        validateInput(workingDay.day, workingDay.transitions)
 
         text.append(DayProvider.parseDay(workingDay.day))
         text.append(": ")
 
-        workingDay.actions.zipWithNext().forEach {
+        workingDay.transitions.zipWithNext().forEach {
             val first = it.first
             val second = it.second
             if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
@@ -29,24 +31,23 @@ class WorkingDayParser {
         return text.toString()
     }
 
-    private fun validateInput(day: String, actions: List<DayAction>) {
+    private fun validateInput(day: String, actions: List<Transition>) {
         if (!DayProvider.containsDay(day)) {
             throw RuntimeException(DAY_NOT_SUPPORTED)
         }
         if (actions.any { !ActionProvider.containsAction(it.action) }) {
             throw RuntimeException(ACTION_NOT_SUPPORTED)
         }
-        if (!actions.isSorted()) {
+        if (!actions.areSorted()) {
             throw RuntimeException(TIMES_ARE_INCONSISTENT)
         }
     }
 }
 
-private fun List<DayAction>.isSorted(): Boolean =
-    this.map { it.timestamp }.sorted() == this.map { it.timestamp }
-
-data class DayAction(val action: String, val timestamp: Long)
+data class Transition(val action: String, val timestamp: Long) {
+    fun isOpen() = action == Action.OPEN.input
+    fun isClose() = action == Action.CLOSE.input
+}
 
 const val DAY_NOT_SUPPORTED = "Day is not supported"
 const val ACTION_NOT_SUPPORTED = "Action is not supported"
-const val TIMES_ARE_INCONSISTENT = "Times are inconsistent"
