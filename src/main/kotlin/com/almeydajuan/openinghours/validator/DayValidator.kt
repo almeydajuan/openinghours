@@ -24,7 +24,7 @@ data class DayValidator(
         }
         return true
     }
-
-    private fun List<DayAction>.isSorted(): Boolean =
-        this.map { it.timestamp }.sorted() == this.map { it.timestamp }
 }
+
+private fun List<DayAction>.isSorted(): Boolean =
+    this.map { it.timestamp }.sorted() == this.map { it.timestamp }

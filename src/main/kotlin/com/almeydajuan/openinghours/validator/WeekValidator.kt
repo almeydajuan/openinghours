@@ -17,7 +17,6 @@ data class WeekValidator(
         if (workingDays.map { it.day }.size != Day.values().size) {
             throw RuntimeException(DAYS_MISSING_IN_THE_WEEK)
         }
-
         return true
     }
 }

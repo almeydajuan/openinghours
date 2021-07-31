@@ -1,9 +1,12 @@
 package com.almeydajuan.openinghours.validator
 
 import com.almeydajuan.openinghours.ActionParser
+import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.DayParser
+import com.almeydajuan.openinghours.WorkingDay
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -36,6 +39,11 @@ class WeekValidatorTest {
                 typicalMonday.copy(day = "wrong day")
             ))
         }
+    }
+
+    @Test
+    fun `accept complete week`() {
+        assertTrue(weekValidator.isValid(Day.values().map { WorkingDay(it.input, emptyList()) }))
     }
 }
 
