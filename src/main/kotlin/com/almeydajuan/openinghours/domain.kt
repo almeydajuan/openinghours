@@ -17,3 +17,11 @@ data class Transition(val action: String, val timestamp: Long) {
     fun isOpen() = action == Action.OPEN.input
     fun isClose() = action == Action.CLOSE.input
 }
+
+data class WorkingDay(val day: String, val transitions: RestaurantTransitions) {
+    fun isComplete() = transitions.isNotEmpty() && transitions.last().action == Action.CLOSE.input
+}
+
+typealias WorkingWeek = List<WorkingDay>
+
+fun WorkingWeek.areDaysRepeated() = this.map { it.day }.toSet().size != this.size
