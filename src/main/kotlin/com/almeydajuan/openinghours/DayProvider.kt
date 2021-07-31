@@ -4,13 +4,11 @@ class DayProvider {
     companion object {
         fun containsDay(dayName: String) = Day.values().map { it.input }.contains(dayName)
 
-        fun findDayByInputName(dayName: String) = Day.values().first { it.input == dayName }
-
         fun parseDay(dayName: String) = findDayByInputName(dayName).output
 
-        fun calculateOffset(dayName: String): Int {
-            return findDayByInputName(dayName).ordinal * DAY_OFFSET
-        }
+        fun calculateOffset(dayName: String) = findDayByInputName(dayName).ordinal * DAY_OFFSET
+
+        private fun findDayByInputName(dayName: String) = Day.values().first { it.input == dayName }
     }
 }
 

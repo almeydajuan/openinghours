@@ -2,7 +2,6 @@ package com.almeydajuan.openinghours.validator
 
 import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
 import com.almeydajuan.openinghours.Action
-import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
 import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.DayAction
@@ -19,12 +18,10 @@ import org.junit.jupiter.api.assertThrows
 
 class DayValidatorTest {
 
-    private val dayValidator = DayValidator(ActionParser())
-
     @Test
     fun `fail when day is not accepted`() {
         val message = assertThrows<RuntimeException> {
-            dayValidator.isValid(
+            DayValidator.isValid(
                 day = "someday",
                 actions = nineToEleven
             )
@@ -36,7 +33,7 @@ class DayValidatorTest {
     @Test
     fun `fail when action is not accepted`() {
         val message = assertThrows<RuntimeException> {
-            dayValidator.isValid(
+            DayValidator.isValid(
                 day = Day.MONDAY.input,
                 actions = listOf(
                     DayAction("someaction", NINE_AM_UNIX),
@@ -51,7 +48,7 @@ class DayValidatorTest {
     @Test
     fun `fail when times are not ordered`() {
         val message = assertThrows<RuntimeException> {
-            dayValidator.isValid(
+            DayValidator.isValid(
                 day = Day.MONDAY.input,
                 actions = nineToEleven.reversed()
             )
@@ -62,12 +59,12 @@ class DayValidatorTest {
 
     @Test
     fun `Mondays open from 9 am to 11 am is valid`() {
-        assertTrue(dayValidator.isValid(typicalMonday.day, typicalMonday.actions))
+        assertTrue(DayValidator.isValid(typicalMonday.day, typicalMonday.actions))
     }
 
     @Test
     fun `Mondays open from 9 am to 11 am and from 1 pm to 6 pm is valid`() {
-        assertTrue(dayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
+        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
     }
 
     /**
@@ -78,17 +75,17 @@ class DayValidatorTest {
      */
     @Test
     fun `Several days with several times are valid`() {
-        assertTrue(dayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
-        assertTrue(dayValidator.isValid(day = Day.WEDNESDAY.input, actions = nineToEleven + oneToSix))
+        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = nineToEleven + oneToSix))
+        assertTrue(DayValidator.isValid(day = Day.WEDNESDAY.input, actions = nineToEleven + oneToSix))
     }
 
     @Test
     fun `Empty day is valid`() {
-        assertTrue(dayValidator.isValid(day = Day.MONDAY.input, actions = emptyList()))
+        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = emptyList()))
     }
 
     @Test
     fun `Day with only closing time is valid`() {
-        assertTrue(dayValidator.isValid(day = Day.MONDAY.input, actions = listOf(DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX))))
+        assertTrue(DayValidator.isValid(day = Day.MONDAY.input, actions = listOf(DayAction(Action.CLOSE.input, ELEVEN_AM_UNIX))))
     }
 }

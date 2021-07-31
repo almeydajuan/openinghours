@@ -1,8 +1,7 @@
 package com.almeydajuan.openinghours
 
 data class WorkingDayParser(
-    val timeConverter: UnixTimestampConverter,
-    val actionParser: ActionParser
+    val timeConverter: UnixTimestampConverter
 ) {
 
     fun parseCloseWorkingDay(workingDay: WorkingDay) =
@@ -21,7 +20,7 @@ data class WorkingDayParser(
             if (first.action == Action.OPEN.input && it.second.action == Action.CLOSE.input) {
                 text.append(timeConverter.convert(first.timestamp))
                 text.append(" ")
-                text.append(actionParser.parseAction(second.action))
+                text.append(ActionProvider.parseAction(second.action))
                 text.append(" ")
                 text.append(timeConverter.convert(second.timestamp))
             }
@@ -36,7 +35,7 @@ data class WorkingDayParser(
         if (!DayProvider.containsDay(day)) {
             throw RuntimeException(DAY_NOT_SUPPORTED)
         }
-        if (actions.any { !actionParser.containsAction(it.action) }) {
+        if (actions.any { !ActionProvider.containsAction(it.action) }) {
             throw RuntimeException(ACTION_NOT_SUPPORTED)
         }
         if (!actions.isSorted()) {

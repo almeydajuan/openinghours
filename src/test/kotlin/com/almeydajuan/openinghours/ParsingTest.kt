@@ -8,10 +8,7 @@ import org.junit.jupiter.api.assertThrows
 class ParsingTest {
 
     private val workingDayParser = WorkingWeekParser(
-        WorkingDayParser(
-            timeConverter = UnixTimestampConverter(),
-            actionParser = ActionParser()
-        )
+        WorkingDayParser(timeConverter = UnixTimestampConverter())
     )
 
     @Test

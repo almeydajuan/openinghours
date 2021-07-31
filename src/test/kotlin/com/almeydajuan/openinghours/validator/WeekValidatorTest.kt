@@ -1,6 +1,5 @@
 package com.almeydajuan.openinghours.validator
 
-import com.almeydajuan.openinghours.ActionParser
 import com.almeydajuan.openinghours.Day
 import com.almeydajuan.openinghours.typicalMonday
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -10,12 +9,10 @@ import org.junit.jupiter.api.assertThrows
 
 class WeekValidatorTest {
 
-    private val weekValidator = WeekValidator(DayValidator(ActionParser()))
-
     @Test
     fun `fail when weekday is empty`() {
         val message = assertThrows<RuntimeException> {
-            weekValidator.isValid(emptyList())
+            WeekValidator.isValid(emptyList())
         }.message
 
         assertEquals(EMPTY_WEEK, message)
@@ -24,7 +21,7 @@ class WeekValidatorTest {
     @Test
     fun `fail when weekday is repeated`() {
         val message = assertThrows<RuntimeException> {
-            weekValidator.isValid(listOf(typicalMonday, typicalMonday))
+            WeekValidator.isValid(listOf(typicalMonday, typicalMonday))
         }.message
 
         assertEquals(DAYS_ARE_REPEATED, message)
@@ -33,7 +30,7 @@ class WeekValidatorTest {
     @Test
     fun `fail when weekday has a wrong format`() {
         assertThrows<RuntimeException> {
-            weekValidator.isValid(listOf(
+            WeekValidator.isValid(listOf(
                 typicalMonday.copy(day = "wrong day")
             ))
         }
@@ -41,7 +38,7 @@ class WeekValidatorTest {
 
     @Test
     fun `accept week with valid days`() {
-        assertTrue(weekValidator.isValid(listOf(typicalMonday, typicalMonday.copy(day = Day.WEDNESDAY.input))))
+        assertTrue(WeekValidator.isValid(listOf(typicalMonday, typicalMonday.copy(day = Day.WEDNESDAY.input))))
     }
 }
 

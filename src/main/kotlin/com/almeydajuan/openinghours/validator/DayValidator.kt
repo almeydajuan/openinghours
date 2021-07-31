@@ -1,27 +1,27 @@
 package com.almeydajuan.openinghours.validator
 
 import com.almeydajuan.openinghours.ACTION_NOT_SUPPORTED
-import com.almeydajuan.openinghours.ActionParser
+import com.almeydajuan.openinghours.ActionProvider
 import com.almeydajuan.openinghours.DAY_NOT_SUPPORTED
 import com.almeydajuan.openinghours.DayAction
 import com.almeydajuan.openinghours.DayProvider
 import com.almeydajuan.openinghours.TIMES_ARE_INCONSISTENT
 
-data class DayValidator(
-    val actionParser: ActionParser
-) {
+class DayValidator{
 
-    fun isValid(day: String, actions: List<DayAction>): Boolean {
-        if (!DayProvider.containsDay(day)) {
-            throw RuntimeException(DAY_NOT_SUPPORTED)
+    companion object {
+        fun isValid(day: String, actions: List<DayAction>): Boolean {
+            if (!DayProvider.containsDay(day)) {
+                throw RuntimeException(DAY_NOT_SUPPORTED)
+            }
+            if (actions.any { !ActionProvider.containsAction(it.action) }) {
+                throw RuntimeException(ACTION_NOT_SUPPORTED)
+            }
+            if (!actions.isSorted()) {
+                throw RuntimeException(TIMES_ARE_INCONSISTENT)
+            }
+            return true
         }
-        if (actions.any { !actionParser.containsAction(it.action) }) {
-            throw RuntimeException(ACTION_NOT_SUPPORTED)
-        }
-        if (!actions.isSorted()) {
-            throw RuntimeException(TIMES_ARE_INCONSISTENT)
-        }
-        return true
     }
 }
 
