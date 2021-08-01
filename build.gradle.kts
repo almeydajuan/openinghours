@@ -12,6 +12,12 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("io.vertx:vertx-stack-depchain:4.1.2"))
+    implementation("io.vertx:vertx-lang-kotlin")
+    implementation("io.vertx:vertx-web")
+
+    implementation(kotlin("stdlib-jdk8"))
+
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 }
 
