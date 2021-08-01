@@ -6,6 +6,11 @@ Representation of opening hours for a restaurant
 
 The whole test suite can be performed via `$ make test`
 
+## How to run in IntelliJ
+
+* Import the project
+* Run the class `Main.kt`
+
 ## Technology choice
 
 ### Java 11
@@ -18,7 +23,8 @@ The configuration is writen in Kotlin to keep the same language as the model.
 ### Vertx
 This is a list of the most popular frameworks in [Kotlin for server side](https://kotlinlang.org/docs/server-overview.html#frameworks-for-server-side-development-with-kotlin)
 
-I chose [Vertx](https://vertx.io/) because is simple to configure and the configuration is easy to read
+I chose [Vertx](https://vertx.io/) because is simple to set up and easy to understand
 
 ## TODO
-    
+
+* Add the possibility to generate a fatjar and run it via console
