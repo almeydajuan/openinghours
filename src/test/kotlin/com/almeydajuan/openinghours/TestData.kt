@@ -1,9 +1,7 @@
 package com.almeydajuan.openinghours
 
-import com.almeydajuan.openinghours.provider.Action
 import com.almeydajuan.openinghours.provider.Action.CLOSE
 import com.almeydajuan.openinghours.provider.Action.OPEN
-import com.almeydajuan.openinghours.provider.Day
 import com.almeydajuan.openinghours.provider.Day.MONDAY
 
 const val ONE_AM_UNIX: Long = 3600

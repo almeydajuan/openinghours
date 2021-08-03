@@ -1,5 +1,7 @@
-package com.almeydajuan.openinghours
+package com.almeydajuan.openinghours.service
 
+import com.almeydajuan.openinghours.OpeningTimeConverter
+import com.almeydajuan.openinghours.WorkingWeek
 import com.almeydajuan.openinghours.parser.WeekParser
 import com.almeydajuan.openinghours.validator.WeekValidator
 

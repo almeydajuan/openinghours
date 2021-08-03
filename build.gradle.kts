@@ -16,6 +16,9 @@ dependencies {
     implementation("io.vertx:vertx-lang-kotlin")
     implementation("io.vertx:vertx-web")
 
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.12.4"))
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
