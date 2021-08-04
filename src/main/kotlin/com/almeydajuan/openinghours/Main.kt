@@ -14,7 +14,7 @@ fun main() {
     val vertx = Vertx.vertx(VertxOptions())
 
     val parsingService = ParsingService(WeekParser(DayParser(UnixTimestampParser())))
-    val objectMapper = ObjectMapper().registerModule(KotlinModule())
+    val objectMapper = createObjectMapper()
     val schedulesController = SchedulesController(objectMapper, parsingService)
 
 
@@ -27,3 +27,5 @@ fun main() {
             println("HTTP server started on port " + server.actualPort())
         }
 }
+
+fun createObjectMapper(): ObjectMapper = ObjectMapper().registerModule(KotlinModule())

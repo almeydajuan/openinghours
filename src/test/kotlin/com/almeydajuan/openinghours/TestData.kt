@@ -27,3 +27,31 @@ val typicalMonday = WorkingDay(
     day = MONDAY.input,
     transitions = nineToEleven
 )
+
+const val TEST_PORT = 8090
+const val BASE_URL = "http://localhost:$TEST_PORT"
+
+const val mondayBody = """
+{
+  "monday": [
+    {
+      "type": "open",
+      "value": 32400
+    },
+    {
+      "type": "close",
+      "value": 72000
+    }
+  ]
+}
+"""
+
+const val mondayResponse = """
+Monday: 9 AM - 8 PM
+Tuesday: Closed
+Wednesday: Closed
+Thursday: Closed
+Friday: Closed
+Saturday: Closed
+Sunday: Closed
+"""

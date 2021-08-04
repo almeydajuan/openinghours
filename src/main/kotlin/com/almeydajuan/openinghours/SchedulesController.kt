@@ -15,7 +15,7 @@ class SchedulesController(
 ) {
     fun installRoute(router: Router) {
         router.route().handler(BodyHandler.create(false))
-        router.post("/api/schedules").handler { ctx ->
+        router.post(API_SCHEDULES).handler { ctx ->
             val body = ctx.body
             val bodyAsJson = body.toJsonObject()
             val workingWeek = Day.values().map { day ->
@@ -33,3 +33,5 @@ class SchedulesController(
 inline fun <reified T> ObjectMapper.readValue(src: Buffer): T = readValue(ByteBufInputStream(src.byteBuf))
 
 private data class TransitionDto(val type: String, val value: String)
+
+const val API_SCHEDULES = "/api/schedules"
