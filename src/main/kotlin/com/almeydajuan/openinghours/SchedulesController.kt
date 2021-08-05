@@ -2,6 +2,7 @@ package com.almeydajuan.openinghours
 
 import com.almeydajuan.openinghours.provider.Day
 import com.almeydajuan.openinghours.service.ParsingService
+import com.almeydajuan.openinghours.validator.ValidationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.netty.buffer.ByteBufInputStream
@@ -16,13 +17,17 @@ class SchedulesController(
     fun installRoute(router: Router) {
         router.route().handler(BodyHandler.create(false))
         router.post(API_SCHEDULES).handler { ctx ->
-            val body = ctx.body
-            val bodyAsJson = body.toJsonObject()
-            val workingWeek = Day.values().map { day ->
-                bodyAsJson.getJsonArray(day.input)?.let { jsonArray ->
-                    val transitions: List<TransitionDto> = objectMapper.readValue(jsonArray.toBuffer())
-                    WorkingDay(day.input, transitions.map { Transition(it.type, it.value.toLong()) })
-                } ?: WorkingDay(day.input, emptyList())
+            val workingWeek = try {
+                val body = ctx.body
+                val bodyAsJson = body.toJsonObject()
+                 Day.values().map { day ->
+                    bodyAsJson.getJsonArray(day.input)?.let { jsonArray ->
+                        val transitions: List<TransitionDto> = objectMapper.readValue(jsonArray.toBuffer())
+                        WorkingDay(day.input, transitions.map { Transition(it.type, it.value.toLong()) })
+                    } ?: WorkingDay(day.input, emptyList())
+                }
+            } catch (exception: Exception) {
+                throw ValidationException(exception.message ?: "empty message")
             }
             val parsedOpeningHours = parsingService.parseOpeningHours(workingWeek)
             ctx.response().setStatusCode(200).end(parsedOpeningHours)
