@@ -4,6 +4,7 @@ import com.almeydajuan.openinghours.parser.DayParser
 import com.almeydajuan.openinghours.parser.UnixTimestampParser
 import com.almeydajuan.openinghours.parser.WeekParser
 import com.almeydajuan.openinghours.service.ParsingService
+import com.almeydajuan.openinghours.web.installErrorHandler
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.vertx.core.Vertx
@@ -17,8 +18,9 @@ fun main() {
     val objectMapper = createObjectMapper()
     val schedulesController = SchedulesController(objectMapper, parsingService)
 
-
-    val router = Router.router(vertx).also { schedulesController.installRoute(it) }
+    val router = Router.router(vertx)
+        .also { schedulesController.installRoute(it) }
+        .installErrorHandler(objectMapper)
 
     vertx.createHttpServer()
         .requestHandler(router)
