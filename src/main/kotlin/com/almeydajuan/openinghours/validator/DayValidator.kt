@@ -10,16 +10,16 @@ class DayValidator {
     companion object {
         fun isValid(workingDay: WorkingDay): Boolean {
             if (!DayProvider.containsDay(workingDay.day)) {
-                throw RuntimeException(DAY_NOT_SUPPORTED)
+                throw ValidationException(DAY_NOT_SUPPORTED)
             }
             if (workingDay.transitions.any { !ActionProvider.containsAction(it.action) }) {
-                throw RuntimeException(ACTION_NOT_SUPPORTED)
+                throw ValidationException(ACTION_NOT_SUPPORTED)
             }
             if (!workingDay.transitions.areSorted()) {
-                throw RuntimeException(TIMES_ARE_INCONSISTENT)
+                throw ValidationException(TIMES_ARE_INCONSISTENT)
             }
             if (workingDay.transitions.any { isOutOfRange(it.timestamp) }) {
-                throw RuntimeException(OUT_OF_RANGE_DATE)
+                throw ValidationException(OUT_OF_RANGE_DATE)
             }
             return true
         }

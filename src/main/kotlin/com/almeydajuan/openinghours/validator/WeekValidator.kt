@@ -11,17 +11,17 @@ class WeekValidator {
         fun validateWorkingWeek(workingWeek: WorkingWeek) {
             workingWeek.forEach { DayValidator.isValid(it) }
             if (workingWeek.areDaysRepeated()) {
-                throw RuntimeException(DAYS_ARE_REPEATED)
+                throw ValidationException(DAYS_ARE_REPEATED)
             }
             if (workingWeek.isEmpty()) {
-                throw RuntimeException(EMPTY_WEEK)
+                throw ValidationException(EMPTY_WEEK)
             }
             val restaurantTransitions = workingWeek.flatMap { it.transitions }
             if (restaurantTransitions.isAmountOfOpeningAndClosingActionsConsistent()) {
-                throw RuntimeException(TIMES_ARE_INCONSISTENT)
+                throw ValidationException(TIMES_ARE_INCONSISTENT)
             }
             if (restaurantTransitions.areOpeningAndClosingTimesInConsistentOrder()) {
-                throw RuntimeException(INCONSISTENT_ORDER_OPEN_CLOSE_TIMES)
+                throw ValidationException(INCONSISTENT_ORDER_OPEN_CLOSE_TIMES)
             }
         }
     }

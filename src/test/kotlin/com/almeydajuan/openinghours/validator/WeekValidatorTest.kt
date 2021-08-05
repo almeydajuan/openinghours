@@ -21,7 +21,7 @@ class WeekValidatorTest {
 
     @Test
     fun `fail when weekday is empty`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             WeekValidator.validateWorkingWeek(emptyList())
         }.message
 
@@ -30,7 +30,7 @@ class WeekValidatorTest {
 
     @Test
     fun `fail when weekday is repeated`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             WeekValidator.validateWorkingWeek(listOf(typicalMonday, typicalMonday))
         }.message
 
@@ -39,7 +39,7 @@ class WeekValidatorTest {
 
     @Test
     fun `fail when weekday has a wrong format`() {
-        assertThrows<RuntimeException> {
+        assertThrows<ValidationException> {
             WeekValidator.validateWorkingWeek(listOf(
                 typicalMonday.copy(day = "wrong day")
             ))
@@ -48,7 +48,7 @@ class WeekValidatorTest {
 
     @Test
     fun `fail when inconsistent open and closing times`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             WeekValidator.validateWorkingWeek(listOf(typicalMonday.copy(
                 transitions = listOf(
                     Transition(CLOSE.input, ONE_PM_UNIX),
@@ -62,7 +62,7 @@ class WeekValidatorTest {
 
     @Test
     fun `unfinished opening times cannot be processed`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             WeekValidator.validateWorkingWeek(listOf(typicalMonday.copy(transitions = listOf(nineToEleven.first()))))
         }.message
 

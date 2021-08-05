@@ -18,7 +18,7 @@ class DayValidatorTest {
 
     @Test
     fun `fail when day is not accepted`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             DayValidator.isValid(
                 typicalMonday.copy(
                     day = "someday"
@@ -31,7 +31,7 @@ class DayValidatorTest {
 
     @Test
     fun `fail when transition is not accepted`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             DayValidator.isValid(
                 typicalMonday.copy(
                     transitions = listOf(
@@ -47,7 +47,7 @@ class DayValidatorTest {
 
     @Test
     fun `fail when times are not ordered`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             DayValidator.isValid(
                 typicalMonday.copy(
                     transitions = nineToEleven.reversed()
@@ -60,7 +60,7 @@ class DayValidatorTest {
 
     @Test
     fun `fail when underflow value`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             DayValidator.isValid(
                 typicalMonday.copy(
                     transitions = nineToEleven.map { it.copy(timestamp = -1) }
@@ -73,7 +73,7 @@ class DayValidatorTest {
 
     @Test
     fun `fail when overflow value`() {
-        val message = assertThrows<RuntimeException> {
+        val message = assertThrows<ValidationException> {
             DayValidator.isValid(
                 typicalMonday.copy(
                     transitions = nineToEleven.map { it.copy(timestamp = 86400) }
