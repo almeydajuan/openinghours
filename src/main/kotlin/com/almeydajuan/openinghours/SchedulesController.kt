@@ -17,20 +17,22 @@ class SchedulesController(
     fun installRoute(router: Router) {
         router.route().handler(BodyHandler.create(false))
         router.post(API_SCHEDULES).handler { ctx ->
-            val workingWeek = try {
+            val result = kotlin.runCatching {
                 val body = ctx.body
                 val bodyAsJson = body.toJsonObject()
-                 Day.values().map { day ->
+                Day.values().map { day ->
                     bodyAsJson.getJsonArray(day.input)?.let { jsonArray ->
                         val transitions: List<TransitionDto> = objectMapper.readValue(jsonArray.toBuffer())
                         WorkingDay(day.input, transitions.map { Transition(it.type, it.value.toLong()) })
                     } ?: WorkingDay(day.input, emptyList())
                 }
-            } catch (exception: Exception) {
-                throw ValidationException(exception.message ?: "empty message")
             }
-            val parsedOpeningHours = parsingService.parseOpeningHours(workingWeek)
-            ctx.response().setStatusCode(200).end(parsedOpeningHours)
+            result.onSuccess {
+                val parsedOpeningHours = parsingService.parseOpeningHours(it)
+                ctx.response().setStatusCode(200).end(parsedOpeningHours)
+            }.onFailure {
+                throw ValidationException(it.message ?: "empty message")
+            }
         }
     }
 }
