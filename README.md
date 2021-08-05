@@ -25,6 +25,11 @@ This is a list of the most popular frameworks in [Kotlin for server side](https:
 
 I chose [Vertx](https://vertx.io/) because is simple to set up and easy to understand
 
+## Persistence
+
+I would persist the information in a collection from the opening times in any NoSQL DB, for example under a [sorted set in redis](https://redislabs.com/ebook/part-1-getting-started/chapter-1-getting-to-know-redis/1-2-what-redis-data-structures-look-like/1-2-5-sorted-sets-in-redis/)
+
 ## TODO
 
 * Add the possibility to generate a fatjar and run it via console
+* Add Integration tests that start the server and send request

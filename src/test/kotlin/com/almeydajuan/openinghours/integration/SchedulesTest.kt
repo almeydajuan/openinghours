@@ -11,6 +11,7 @@ import com.almeydajuan.openinghours.parser.DayParser
 import com.almeydajuan.openinghours.parser.UnixTimestampParser
 import com.almeydajuan.openinghours.parser.WeekParser
 import com.almeydajuan.openinghours.service.ParsingService
+import com.almeydajuan.openinghours.service.WeekScheduleRepository
 import io.netty.handler.codec.http.HttpResponseStatus.OK
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
@@ -31,7 +32,7 @@ class SchedulesTest {
 
     private val schedulesController = SchedulesController(
         objectMapper = createObjectMapper(),
-        parsingService = ParsingService(WeekParser(DayParser(UnixTimestampParser())))
+        parsingService = ParsingService(WeekParser(DayParser(UnixTimestampParser())), WeekScheduleRepository())
     )
 
     @BeforeAll
