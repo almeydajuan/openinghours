@@ -15,8 +15,6 @@ dependencies {
     implementation(platform("io.vertx:vertx-stack-depchain:4.1.2"))
     implementation("io.vertx:vertx-lang-kotlin")
     implementation("io.vertx:vertx-web")
-    implementation("io.vertx:vertx-web-client")
-    implementation("io.vertx:vertx-junit5")
 
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.12.4"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
