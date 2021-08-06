@@ -23,11 +23,11 @@ The configuration is writen in Kotlin to keep the same language as the model.
 ### Vertx
 This is a list of the most popular frameworks in [Kotlin for server side](https://kotlinlang.org/docs/server-overview.html#frameworks-for-server-side-development-with-kotlin)
 
-I chose [Vertx](https://vertx.io/) because is simple to set up and easy to understand
+I chose [Vertx](https://vertx.io/) because by simply importing a library a web server can be created easily and clearly.I also prefer to have the initial configuration in an imperative way instead of declarative. 
 
 ## Persistence
 
-I would persist the information in a collection from the opening times in any NoSQL DB, for example under a [sorted set in redis](https://redislabs.com/ebook/part-1-getting-started/chapter-1-getting-to-know-redis/1-2-what-redis-data-structures-look-like/1-2-5-sorted-sets-in-redis/)
+I would persist the information in a collection from the opening times in any NoSQL DB, for example a very simple solution is under a [sorted set in redis](https://redislabs.com/ebook/part-1-getting-started/chapter-1-getting-to-know-redis/1-2-what-redis-data-structures-look-like/1-2-5-sorted-sets-in-redis/)
 
 ## TODO
 
