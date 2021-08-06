@@ -32,4 +32,4 @@ I would persist the information in a collection from the opening times in any No
 ## TODO
 
 * Add the possibility to generate a fatjar and run it via console
-* Add Integration tests that start the server and send request
+* Add Integration tests that start the server and send request, and test with mocking of the service
